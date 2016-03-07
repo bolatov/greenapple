@@ -42,10 +42,4 @@ var routes = Routes{
 		"/random",
 		AlgoRandom,
 	},
-	Route{
-		"AlgoList",
-		"GET",
-		"/list",
-		AlgoList,
-	}
 }

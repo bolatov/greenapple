@@ -19,6 +19,10 @@ func Index(w http.ResponseWriter, r *http.Request) {
 func AlgoIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+	algos, err := RepoFindAll()
+	if err != nil {
+		panic(err)
+	}
 	if err := json.NewEncoder(w).Encode(algos); err != nil {
 		panic(err)
 	}
@@ -60,20 +64,23 @@ func AlgoCreate(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	t, err := RepoCreateAlgo(algo)
+	a, err := RepoCreateAlgo(algo)
 	if err != nil {
 		panic(err)
 	}
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusCreated)
-	if err := json.NewEncoder(w).Encode(t); err != nil {
+	if err := json.NewEncoder(w).Encode(a); err != nil {
 		panic(err)
 	}
 }
 
 func AlgoRandom(w http.ResponseWriter, r *http.Request) {
-	n := len(algos)
-	ri := rand.Intn(n)
+	algos, err := RepoFindAll()
+	if err != nil {
+		panic(err)
+	}
+	ri := rand.Intn(len(algos))
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(algos[ri]); err != nil {

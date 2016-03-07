@@ -9,8 +9,6 @@ import (
 
 var currentId int
 
-var algos Algos
-
 var db *sql.DB
 
 // Give us some seed data
@@ -73,7 +71,9 @@ func RepoCreateAlgo(a Algo) (Algo, error) {
 }
 
 // func RepoUpdateAlgo(a Algo) (Algo, error) {
-
+// if err := db.Ping(); err != nil {
+// 		log.Fatal(err)
+// 	}
 // }
 
 func RepoAlgoCount() (int, error) {
@@ -87,6 +87,30 @@ func RepoAlgoCount() (int, error) {
 		return res, err
 	}
 	return res, nil
+}
+
+func RepoFindAll() (Algos, error) {
+	if err := db.Ping(); err != nil {
+		log.Fatal(err)
+	}
+	var algos Algos
+	rows, err := db.Query("SELECT id, name, desc FROM algo")
+	if err != nil {
+		return algos, err
+	}
+	// TODO use technique by Rob Pike (errType)
+	for rows.Next() {
+		var a Algo
+		if err := rows.Scan(&a.Id, &a.Name, &a.Desc); err != nil {
+			log.Fatal(err)
+		}
+		algos = append(algos, a)
+	}
+	if err := rows.Err(); err != nil {
+		// log.Fatal(err)
+		return algos, err
+	}
+	return algos, nil
 }
 
 // func RepoDestroyAlgo(id int) error {
