@@ -21,19 +21,19 @@ var routes = Routes{
 	Route{
 		"AlgoIndex",
 		"GET",
-		"/algos",
+		"/algo",
 		AlgoIndex,
 	},
 	Route{
 		"AlgoShow",
 		"GET",
-		"/algos/{algoId}",
+		"/algo/{algoId}",
 		AlgoShow,
 	},
 	Route{
 		"AlgoCreate",
 		"POST",
-		"/algos",
+		"/algo",
 		AlgoCreate,
 	},
 	Route{
@@ -42,4 +42,10 @@ var routes = Routes{
 		"/random",
 		AlgoRandom,
 	},
+	Route{
+		"AlgoList",
+		"GET",
+		"/list",
+		AlgoList,
+	}
 }

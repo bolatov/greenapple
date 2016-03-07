@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -26,7 +27,20 @@ func AlgoIndex(w http.ResponseWriter, r *http.Request) {
 func AlgoShow(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	algoId := vars["algoId"]
-	fmt.Fprintln(w, "Algo show:", algoId)
+	id, err := strconv.Atoi(algoId)
+	if err != nil {
+		panic(err)
+	}
+	a, err := RepoFindAlgo(id)
+	if err != nil {
+		panic(err)
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusFound)
+	if err := json.NewEncoder(w).Encode(a); err != nil {
+		panic(err)
+	}
 }
 
 func AlgoCreate(w http.ResponseWriter, r *http.Request) {
@@ -46,7 +60,10 @@ func AlgoCreate(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	t := RepoCreateAlgo(algo)
+	t, err := RepoCreateAlgo(algo)
+	if err != nil {
+		panic(err)
+	}
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(t); err != nil {
