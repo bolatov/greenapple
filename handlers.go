@@ -2,9 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -12,19 +12,20 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Welcome!")
-}
+// func Index(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Fprintln(w, "Welcome!")
+// }
 
 func AlgoIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	algos, err := RepoFindAll()
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
+	log.Println("algoIndex: ", algos)
 	if err := json.NewEncoder(w).Encode(algos); err != nil {
-		panic(err)
+		log.Println(err)
 	}
 }
 
@@ -33,17 +34,17 @@ func AlgoShow(w http.ResponseWriter, r *http.Request) {
 	algoId := vars["algoId"]
 	id, err := strconv.Atoi(algoId)
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
 	a, err := RepoFindAlgo(id)
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusFound)
 	if err := json.NewEncoder(w).Encode(a); err != nil {
-		panic(err)
+		log.Println(err)
 	}
 }
 

@@ -12,16 +12,16 @@ type Route struct {
 type Routes []Route
 
 var routes = Routes{
-	Route{
-		"Index",
-		"GET",
-		"/",
-		Index,
-	},
+	// Route{
+	// 	"Index",
+	// 	"GET",
+	// 	"/",
+	// 	Index,
+	// },
 	Route{
 		"AlgoIndex",
 		"GET",
-		"/algo",
+		"/",
 		AlgoIndex,
 	},
 	Route{

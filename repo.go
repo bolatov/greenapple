@@ -44,17 +44,21 @@ func createTable() {
 
 func RepoFindAlgo(id int) (Algo, error) {
 	log.Printf("RepoFindAlgo(id=%v)\n", id)
+	a := Algo{}
 	if err := db.Ping(); err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return a, err
 	}
 
-	var a Algo
 	row := db.QueryRow("SELECT id, name, desc FROM algo WHERE id = ?", id)
 	err := row.Scan(&a.Id, &a.Name, &a.Desc)
 	if err != nil {
-		// log.Fatal(err)
-		log.Println(err)
-		return a, err
+		if err == sql.ErrNoRows {
+
+		} else {
+			log.Println(err)
+			return a, err
+		}
 	}
 	return a, nil
 }
@@ -62,18 +66,22 @@ func RepoFindAlgo(id int) (Algo, error) {
 func RepoCreateAlgo(a Algo) (Algo, error) {
 	if err := db.Ping(); err != nil {
 		log.Fatal(err)
+		return a, err
 	}
 	_, err := db.Exec("INSERT INTO algo(name, desc) VALUES(?, ?)", a.Name, a.Desc)
 	if err != nil {
 		return a, err
 	}
+	a.Id = -1
 	return a, nil
 }
 
 // func RepoUpdateAlgo(a Algo) (Algo, error) {
-// if err := db.Ping(); err != nil {
+// 	if err := db.Ping(); err != nil {
 // 		log.Fatal(err)
+// 		return a, err
 // 	}
+// 	RepoFindAlgo(id)
 // }
 
 func RepoAlgoCount() (int, error) {
@@ -89,25 +97,27 @@ func RepoAlgoCount() (int, error) {
 	return res, nil
 }
 
-func RepoFindAll() (Algos, error) {
+func RepoFindAll() ([]Algo, error) {
 	if err := db.Ping(); err != nil {
 		log.Fatal(err)
 	}
-	var algos Algos
+	algos := make([]Algo, 0)
 	rows, err := db.Query("SELECT id, name, desc FROM algo")
 	if err != nil {
+		log.Println(err)
 		return algos, err
 	}
+	defer rows.Close()
 	// TODO use technique by Rob Pike (errType)
 	for rows.Next() {
 		var a Algo
 		if err := rows.Scan(&a.Id, &a.Name, &a.Desc); err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 		algos = append(algos, a)
 	}
 	if err := rows.Err(); err != nil {
-		// log.Fatal(err)
+		log.Println(err)
 		return algos, err
 	}
 	return algos, nil
