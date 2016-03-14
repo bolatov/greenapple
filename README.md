@@ -34,3 +34,10 @@ curl  \
   "desc": "Single source, shortest path algorithm on graphs"
 }
 ```
+
+### Run
+```bash
+go get
+go build
+./greenapple > /dev/null 2 &1
+```
