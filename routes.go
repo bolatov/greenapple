@@ -37,6 +37,12 @@ var routes = Routes{
 		AlgoCreate,
 	},
 	Route{
+		"AlgoUpdate",
+		"PUT",
+		"/algo",
+		AlgoUpdate,
+	},
+	Route{
 		"AlgoRandom",
 		"GET",
 		"/random",

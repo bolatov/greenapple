@@ -65,7 +65,7 @@ func RepoFindAlgo(id int) (Algo, error) {
 
 func RepoCreateAlgo(a Algo) (Algo, error) {
 	if err := db.Ping(); err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return a, err
 	}
 	_, err := db.Exec("INSERT INTO algo(name, desc) VALUES(?, ?)", a.Name, a.Desc)
@@ -76,13 +76,21 @@ func RepoCreateAlgo(a Algo) (Algo, error) {
 	return a, nil
 }
 
-// func RepoUpdateAlgo(a Algo) (Algo, error) {
-// 	if err := db.Ping(); err != nil {
-// 		log.Fatal(err)
-// 		return a, err
-// 	}
-// 	RepoFindAlgo(id)
-// }
+func RepoUpdateAlgo(a Algo) (Algo, error) {
+	if err := db.Ping(); err != nil {
+		log.Println(err)
+		return a, err
+	}
+	old, err := RepoFindAlgo(a.Id)
+	if err != nil {
+		log.Println(err)
+		return a, err
+	}
+
+	old.Name, old.Desc = a.Name, a.Desc
+	_, err = db.Exec("UPDATE algo SET name=?, desc=? WHERE id=?", old.Name, old.Desc, old.Id)
+	return old, err
+}
 
 func RepoAlgoCount() (int, error) {
 	if err := db.Ping(); err != nil {
