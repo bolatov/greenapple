@@ -16,10 +16,11 @@ curl  \
 * **[PUT] /algo** - Updates an existing algorithm based on algorithm id.
 ```bash
 # e.g.
+# Do not forget to specify algorithm ID, otherwise it will not know what to update.
 curl  \
   -H "Content-Type: application/json" \
   -X PUT \
-  -d '{"name": "Dijkstra updated", "desc": "UPDATED DESCRIPTION"}' \
+  -d '{"id":1", name": "Dijkstra updated", "desc": "UPDATED DESCRIPTION"}' \
   localhost:8080/algo
 ```
 * **[GET] /random** - Returns a random algorithm from the server.
