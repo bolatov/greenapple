@@ -9,7 +9,17 @@ Small server for keeping track of learnt algorithms.
 # e.g.
 curl  \
   -H "Content-Type: application/json" \
-  -d '{"name": "Dijkstra", "desc": "Single source, shortest path algorithm"}' 
+  -X POST
+  -d '{"name": "Dijkstra", "desc": "Single source, shortest path algorithm"}' \
+  localhost:8080/algo
+```
+* **[PUT] /algo** - Updates an existing algorithm based on algorithm id.
+```bash
+# e.g.
+curl  \
+  -H "Content-Type: application/json" \
+  -X PUT
+  -d '{"name": "Dijkstra updated", "desc": "UPDATED DESCRIPTION"}' \
   localhost:8080/algo
 ```
 * **[GET] /random** - Returns a random algorithm from the server.

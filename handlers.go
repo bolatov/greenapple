@@ -93,12 +93,12 @@ func AlgoUpdate(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	a, err := RepoUpdateAlgo(a)
+	a, err := RepoUpdateAlgo(algo)
 	if err != nil {
 		panic(err)
 	}
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOk)
+	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(a); err != nil {
 		panic(err)
 	}
