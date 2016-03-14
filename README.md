@@ -9,7 +9,7 @@ Small server for keeping track of learnt algorithms.
 # e.g.
 curl  \
   -H "Content-Type: application/json" \
-  -X POST
+  -X POST \
   -d '{"name": "Dijkstra", "desc": "Single source, shortest path algorithm"}' \
   localhost:8080/algo
 ```
@@ -18,7 +18,7 @@ curl  \
 # e.g.
 curl  \
   -H "Content-Type: application/json" \
-  -X PUT
+  -X PUT \
   -d '{"name": "Dijkstra updated", "desc": "UPDATED DESCRIPTION"}' \
   localhost:8080/algo
 ```
