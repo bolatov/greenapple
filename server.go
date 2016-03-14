@@ -2,6 +2,7 @@ package main
 
 // http://thenewstack.io/make-a-restful-json-api-go/
 import (
+	"flag"
 	"log"
 	"net/http"
 )
@@ -9,5 +10,8 @@ import (
 func main() {
 	router := NewRouter()
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	portPtr := flag.String("port", "8080", "port number")
+	flag.Parse()
+
+	log.Fatal(http.ListenAndServe(":"+(*portPtr), router))
 }

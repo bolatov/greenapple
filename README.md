@@ -39,5 +39,5 @@ curl  \
 ```bash
 go get
 go build
-./greenapple > /dev/null 2 &1
+./greenapple -port=8080 > /dev/null 2 &1
 ```
