@@ -12,8 +12,9 @@ var currentId int
 var db *sql.DB
 
 // Give us some seed data
-func init() {
-	db = initDB("algo.db")
+func initA(dbName string) {
+	log.Printf("Init a connection to '%v' db\n", dbName)
+	db = initDB(dbName)
 	createTable()
 }
 
