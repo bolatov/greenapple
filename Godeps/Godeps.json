@@ -1,0 +1,23 @@
+{
+	"ImportPath": "github.com/bolatov/greenapple",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v70",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/gorilla/context",
+			"Rev": "1ea25387ff6f684839d82767c1733ff4d4d15d0a"
+		},
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Rev": "acf3be1b335c8ce30b2c8d51300984666f0ceefa"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-sqlite3",
+			"Comment": "v1.1.0-42-g45f056c",
+			"Rev": "45f056ca8f5ef4ee3f68796167a0a0e6a6214813"
+		}
+	]
+}
