@@ -1,4 +1,4 @@
-# greenapple
+# Learn 5 Minutes
 Small server for keeping track of learnt algorithms.
 
 ### Endoints
