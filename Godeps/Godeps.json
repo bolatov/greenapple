@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/bolatov/greenapple",
+	"ImportPath": "github.com/bolatov/learn5minutes",
 	"GoVersion": "go1.6",
 	"GodepVersion": "v70",
 	"Packages": [
@@ -15,9 +15,14 @@
 			"Rev": "acf3be1b335c8ce30b2c8d51300984666f0ceefa"
 		},
 		{
-			"ImportPath": "github.com/mattn/go-sqlite3",
-			"Comment": "v1.1.0-42-g45f056c",
-			"Rev": "45f056ca8f5ef4ee3f68796167a0a0e6a6214813"
+			"ImportPath": "github.com/lib/pq",
+			"Comment": "go1.0-cutoff-96-gee1442b",
+			"Rev": "ee1442bda7bd1b6a84e913bdb421cb1874ec629d"
+		},
+		{
+			"ImportPath": "github.com/lib/pq/oid",
+			"Comment": "go1.0-cutoff-96-gee1442b",
+			"Rev": "ee1442bda7bd1b6a84e913bdb421cb1874ec629d"
 		}
 	]
 }

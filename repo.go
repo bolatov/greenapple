@@ -3,8 +3,9 @@ package main
 import (
 	"database/sql"
 	"log"
+	"os"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/lib/pq"
 )
 
 var currentId int
@@ -12,16 +13,15 @@ var currentId int
 var db *sql.DB
 
 // Give us some seed data
-func initA(dbName string) {
-	log.Printf("Init a connection to '%v' db\n", dbName)
-	db = initDB(dbName)
+func initA() {
+	db = initDB()
 	createTable()
 }
 
-func initDB(filepath string) *sql.DB {
-	db, err := sql.Open("sqlite3", filepath)
+func initDB() *sql.DB {
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
-		panic(err)
+		log.Fatalf("Error opening database: %q", err)
 	}
 	if db == nil {
 		panic("db nil")
@@ -33,7 +33,7 @@ func createTable() {
 	query := `
 	CREATE TABLE IF NOT EXISTS algo(
 		id INTEGER PRIMARY KEY,
-		name TEXT NOT NULL,
+		name VARCHAR(255) NOT NULL,
 		desc TEXT
 	);
 	`
@@ -51,7 +51,7 @@ func RepoFindAlgo(id int) (Algo, error) {
 		return a, err
 	}
 
-	row := db.QueryRow("SELECT id, name, desc FROM algo WHERE id = ?", id)
+	row := db.QueryRow("SELECT id, name, desc FROM algo WHERE id = $1", id)
 	err := row.Scan(&a.Id, &a.Name, &a.Desc)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -69,7 +69,7 @@ func RepoCreateAlgo(a Algo) (Algo, error) {
 		log.Println(err)
 		return a, err
 	}
-	_, err := db.Exec("INSERT INTO algo(name, desc) VALUES(?, ?)", a.Name, a.Desc)
+	_, err := db.Exec("INSERT INTO algo(name, desc) VALUES($1, $2)", a.Name, a.Desc)
 	if err != nil {
 		return a, err
 	}
@@ -89,7 +89,7 @@ func RepoUpdateAlgo(a Algo) (Algo, error) {
 	}
 
 	old.Name, old.Desc = a.Name, a.Desc
-	_, err = db.Exec("UPDATE algo SET name=?, desc=? WHERE id=?", old.Name, old.Desc, old.Id)
+	_, err = db.Exec("UPDATE algo SET name=$1, desc=$2 WHERE id=$3", old.Name, old.Desc, old.Id)
 	return old, err
 }
 

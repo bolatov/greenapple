@@ -18,12 +18,9 @@ import (
 
 func main() {
 	portPtr := flag.String("port", "8080", "port number")
-	dbNamePtr := flag.String("db", "algo.db", "path to db")
 	flag.Parse()
 
-	log.Println("dbNamePtr: " + (*dbNamePtr))
-
-	initA(*dbNamePtr)
+	initA()
 	router := NewRouter()
 	log.Fatal(http.ListenAndServe(":"+(*portPtr), router))
 }
