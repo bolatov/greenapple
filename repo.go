@@ -32,9 +32,9 @@ func initDB() *sql.DB {
 func createTable() {
 	query := `
 	CREATE TABLE IF NOT EXISTS algo(
-		id INTEGER PRIMARY KEY,
+		id SERIAL,
 		name VARCHAR(255) NOT NULL,
-		desc TEXT
+		descr TEXT
 	);
 	`
 	_, err := db.Exec(query)
@@ -51,8 +51,8 @@ func RepoFindAlgo(id int) (Algo, error) {
 		return a, err
 	}
 
-	row := db.QueryRow("SELECT id, name, desc FROM algo WHERE id = $1", id)
-	err := row.Scan(&a.Id, &a.Name, &a.Desc)
+	row := db.QueryRow("SELECT id, name, descr FROM algo WHERE id = $1", id)
+	err := row.Scan(&a.Id, &a.Name, &a.Descr)
 	if err != nil {
 		if err == sql.ErrNoRows {
 
@@ -69,7 +69,7 @@ func RepoCreateAlgo(a Algo) (Algo, error) {
 		log.Println(err)
 		return a, err
 	}
-	_, err := db.Exec("INSERT INTO algo(name, desc) VALUES($1, $2)", a.Name, a.Desc)
+	_, err := db.Exec("INSERT INTO algo(name, descr) VALUES($1, $2)", a.Name, a.Descr)
 	if err != nil {
 		return a, err
 	}
@@ -88,8 +88,8 @@ func RepoUpdateAlgo(a Algo) (Algo, error) {
 		return a, err
 	}
 
-	old.Name, old.Desc = a.Name, a.Desc
-	_, err = db.Exec("UPDATE algo SET name=$1, desc=$2 WHERE id=$3", old.Name, old.Desc, old.Id)
+	old.Name, old.Descr = a.Name, a.Descr
+	_, err = db.Exec("UPDATE algo SET name=$1, descr=$2 WHERE id=$3", old.Name, old.Descr, old.Id)
 	return old, err
 }
 
@@ -111,7 +111,7 @@ func RepoFindAll() ([]Algo, error) {
 		log.Fatal(err)
 	}
 	algos := make([]Algo, 0)
-	rows, err := db.Query("SELECT id, name, desc FROM algo")
+	rows, err := db.Query("SELECT id, name, descr FROM algo")
 	if err != nil {
 		log.Println(err)
 		return algos, err
@@ -120,7 +120,7 @@ func RepoFindAll() ([]Algo, error) {
 	// TODO use technique by Rob Pike (errType)
 	for rows.Next() {
 		var a Algo
-		if err := rows.Scan(&a.Id, &a.Name, &a.Desc); err != nil {
+		if err := rows.Scan(&a.Id, &a.Name, &a.Descr); err != nil {
 			log.Println(err)
 		}
 		algos = append(algos, a)
