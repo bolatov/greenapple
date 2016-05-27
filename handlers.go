@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -113,6 +114,7 @@ func AlgoRandom(w http.ResponseWriter, r *http.Request) {
 	if len(algos) <= 0 {
 		log.Printf("AlgoRandom: No algos found, return %v\n", http.StatusNotFound)
 		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprint(w, "Not Found")
 		return
 	}
 
