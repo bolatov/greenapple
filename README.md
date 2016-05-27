@@ -40,5 +40,5 @@ curl  \
 ```bash
 go get
 go build
-./greenapple -port=8080 &
+./learn5minutes -port=8080 &
 ```
