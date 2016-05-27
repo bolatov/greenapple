@@ -109,6 +109,13 @@ func AlgoRandom(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+
+	if len(algos) <= 0 {
+		log.Printf("AlgoRandom: No algos found, return %v\n", http.StatusNotFound)
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
 	ri := rand.Intn(len(algos))
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
