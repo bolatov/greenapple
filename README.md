@@ -10,7 +10,7 @@ Small server for keeping track of learnt algorithms.
 curl  \
   -H "Content-Type: application/json" \
   -X POST \
-  -d '{"name": "Dijkstra", "desc": "Single source, shortest path algorithm"}' \
+  -d '{"name": "Dijkstra", "descr": "Single source, shortest path algorithm"}' \
   localhost:8080/algo
 ```
 * **[PUT] /algo** - Updates an existing algorithm based on algorithm id.
@@ -20,7 +20,7 @@ curl  \
 curl  \
   -H "Content-Type: application/json" \
   -X PUT \
-  -d '{"id":1", name": "Dijkstra updated", "desc": "UPDATED DESCRIPTION"}' \
+  -d '{"id":1", name": "Dijkstra updated", "descr": "UPDATED DESCRIPTION"}' \
   localhost:8080/algo
 ```
 * **[GET] /random** - Returns a random algorithm from the server.
@@ -32,7 +32,7 @@ curl  \
 {
   "id": 7,
   "name": "Dijkstra",
-  "desc": "Single source, shortest path algorithm on graphs"
+  "descr": "Single source, shortest path algorithm on graphs"
 }
 ```
 
